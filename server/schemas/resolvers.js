@@ -7,7 +7,7 @@ const resolvers = {
     /// GETS ONE USER ///
     user: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id }).select('-__v -password');
+        const userData = await (await User.findOne({ _id: context.user._id }).select('-__v -password')).populate('classes');
 
         return userData;
       }
@@ -42,7 +42,7 @@ const resolvers = {
       return { token, user };
     },
     /// ADD CLASS ///
-    addClass: async (parent, { className, startDate, endDate, description }) => {
+    addClass: async (parent, { className, startDate, endDate, description }, context) => {
         if (context.user) {
           const course = await Class.create({
             className,
