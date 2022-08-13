@@ -8,8 +8,12 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Auth from './utils/auth';
+
 /// IMPORT PAGES ///
+import Landing from './pages/Landing';
 import Signup from './pages/Signup';
+import Login from './pages/Login';
 
 import './App.css';
 
@@ -38,9 +42,12 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div>Hello World</div>
+      <button onClick={Auth.logout}>Logout</button>
       <Router>
         <Routes>
+          <Route path='/' element={<Landing />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </Router>
     </ApolloProvider>

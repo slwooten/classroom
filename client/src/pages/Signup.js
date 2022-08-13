@@ -65,7 +65,7 @@ const handleFormSubmit = async (e) => {
           <input
             placeholder='Password'
             name='password'
-            type='text'
+            type='password'
             value={formState.password}
             onChange={handleChange}
           />
