@@ -15,6 +15,7 @@ const typeDefs = gql`
     startDate: String!
     endDate: String!
     description: String
+    instructor: String
   }
 
   type Auth {

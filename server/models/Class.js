@@ -17,6 +17,11 @@ const classSchema = new Schema(
     description: {
       type: String,
     },
+    instructor: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     students: [
       {
         type: Schema.Types.ObjectId,
