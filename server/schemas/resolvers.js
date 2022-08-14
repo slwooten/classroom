@@ -14,6 +14,10 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
+    /// GETS ONE COURSE ///
+    course: async (parent, { courseId } ) => {
+      return Course.findOne({ _id: courseId});
+    },
   },
 
   Mutation: {

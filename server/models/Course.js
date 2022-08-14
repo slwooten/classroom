@@ -29,7 +29,16 @@ const courseSchema = new Schema(
       }
     ],
   },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
+
+courseSchema.virtual('studentCount').get(function () {
+  return this.students.length;
+});
 
 const Course = model('Course', courseSchema);
 

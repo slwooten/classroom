@@ -16,6 +16,15 @@ const typeDefs = gql`
     endDate: String!
     description: String!
     instructor: String!
+    students: [Student]
+    studentCount: Int
+  }
+
+  type Student {
+    _id: ID
+    firstName: String
+    lastName: String
+    course: String
   }
 
   type Auth {
@@ -25,6 +34,7 @@ const typeDefs = gql`
 
   type Query {
     user: User
+    course(courseId: ID!): Course
   }
 
   type Mutation {
