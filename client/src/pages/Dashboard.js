@@ -25,6 +25,7 @@ const Dashboard = () => {
   })
 
   const courseInfo = data?.user?.courses;
+  const courseLength = data?.user?.courses?.length;
 
   /// ADD COURSE MUTATION ///
   const [addCourse, { error, courseData }] = useMutation(ADD_COURSE);
@@ -79,7 +80,7 @@ const Dashboard = () => {
         <h2>Welcome back, {data.user.username}!</h2>
       </div>
         <>
-          {data.user.courses ? (
+          {courseLength !== 0  ? (
             <div>
               <h2>Here are your courses:</h2>
               <div>

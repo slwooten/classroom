@@ -15,6 +15,7 @@ import Landing from './pages/Landing';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import CoursePage from './pages/CoursePage';
 
 import './App.css';
 
@@ -50,6 +51,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard/:userId' element={<Dashboard />} />
+          <Route path='course/:courseId' element={<CoursePage />} />
         </Routes>
       </Router>
     </ApolloProvider>
