@@ -5,13 +5,13 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
-    classCount: Int
-    classes: [Class]
+    courseCount: Int
+    courses: [Course]
   }
 
-  type Class {
+  type Course {
     _id: ID!
-    className: String!
+    courseName: String!
     startDate: String!
     endDate: String!
     description: String!
@@ -30,7 +30,7 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-    addClass(className: String!, startDate: String!, endDate: String!, description: String!): Class
+    addCourse(courseName: String!, startDate: String!, endDate: String!, description: String!): Course
   }
 `;
 

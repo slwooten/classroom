@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
 import { QUERY_USER } from '../utils/queries';
-import { ADD_CLASS } from '../utils/mutations';
+import { ADD_COURSE } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 
+import ClassCard from '../components/ClassCard';
 
 const Dashboard = () => {
 
@@ -14,20 +15,20 @@ const Dashboard = () => {
   // console.log(userData);
 
   /// FORM STATE ///
-  const [formState, setFormState] = useState({ className: '', startDate: '', endDate: '', description: '' });
+  const [formState, setFormState] = useState({ courseName: '', startDate: '', endDate: '', description: '' });
 
   /// QUERYS USER ///
   const { loading, data } = useQuery(QUERY_USER, {
     variables: { _id: userData._id }
   })
 
-  // const classInfo = data.user.classes;
+  const courseInfo = data.user.courses;
   
 
   console.log('refreshed data', data);
   // console.log('classInfo', classInfo);
 
-  const [addClass, { error, classData }] = useMutation(ADD_CLASS);
+  const [addCourse, { error, courseData }] = useMutation(ADD_COURSE);
 
   // console.log('class data', classData);
 
@@ -47,7 +48,7 @@ const Dashboard = () => {
     // console.log(formState);
 
     try {
-      const { moreData } = await addClass({
+      const { moreData } = await addCourse({
         variables: {
           ...formState,
           instructor: Auth.getUser().data.username,
@@ -61,7 +62,7 @@ const Dashboard = () => {
     };
 
     setFormState({
-      className: '',
+      courseName: '',
       startDate: '',
       endDate: '',
       description: '',
@@ -83,15 +84,15 @@ const Dashboard = () => {
         <h1>Dashboard</h1>
         <h2>Welcome back, {data.user.username}</h2>
       </div>
-      {classData ? (
+      {courseData ? (
         <p>Course successfully added!</p>
       ) : (
         <>
           <div>
-          <h2>Here are your classes:</h2>
-          {/* {classInfo.map((course) => (
-            <p>{course.className}</p>
-          ))} */}
+          <h2>Here are your courses:</h2>
+          {courseInfo.map((course) => (
+            <ClassCard course={course}/>
+          ))}
           </div>
           <div>
             <form onSubmit={handleFormSubmit}>
@@ -99,7 +100,7 @@ const Dashboard = () => {
                 placeholder='Course name'
                 type='text'
                 name='className'
-                value={formState.className}
+                value={formState.courseName}
                 onChange={handleChange}
               />
               <input

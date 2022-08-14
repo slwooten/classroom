@@ -13,11 +13,11 @@ export const ADD_USER = gql`
 }
 `;
 
-export const ADD_CLASS = gql`
-  mutation addClass($className: String!, $startDate: String!, $endDate: String!, $description: String!) {
-  addClass(className: $className, startDate: $startDate, endDate: $endDate, description: $description) {
+export const ADD_COURSE = gql`
+  mutation addCourse($courseName: String!, $startDate: String!, $endDate: String!, $description: String!) {
+  addCourse(courseName: $courseName, startDate: $startDate, endDate: $endDate, description: $description) {
     _id
-    className
+    courseName
     startDate
     endDate
     description
@@ -27,21 +27,13 @@ export const ADD_CLASS = gql`
 `
 
 export const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
+ mutation login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     token
     user {
       _id
       username
       email
-      classCount
-      classes {
-        _id
-        className
-        startDate
-        endDate
-        description
-      }
     }
   }
 }

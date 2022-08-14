@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Class } = require('../models');
+const { User, Course } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -7,7 +7,7 @@ const resolvers = {
     /// GETS ONE USER ///
     user: async (parent, args, context) => {
       if (context.user) {
-        const userData = await (await User.findOne({ _id: context.user._id }).select('-__v -password')).populate('classes');
+        const userData = await (await User.findOne({ _id: context.user._id }).select('-__v -password')).populate('courses');
 
         return userData;
       }
@@ -42,10 +42,10 @@ const resolvers = {
       return { token, user };
     },
     /// ADD CLASS ///
-    addClass: async (parent, { className, startDate, endDate, description }, context) => {
+    addCourse: async (parent, { courseName, startDate, endDate, description }, context) => {
         if (context.user) {
-          const course = await Class.create({
-            className,
+          const course = await Course.create({
+            courseName,
             startDate,
             endDate,
             description,
@@ -54,7 +54,7 @@ const resolvers = {
 
           await User.findOneAndUpdate(
             { _id: context.user._id },
-            { $addToSet: { classes: course._id }}
+            { $addToSet: { courses: course._id }}
           );
 
           return course;

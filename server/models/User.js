@@ -18,10 +18,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    classes: [
+    courses: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Class',
+        ref: 'Course',
       },
     ],
   },
@@ -45,8 +45,8 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-userSchema.virtual('classCount').get(function () {
-  return this.classes.length;
+userSchema.virtual('courseCount').get(function () {
+  return this.courses.length;
 });
 
 const User = model('User', userSchema);

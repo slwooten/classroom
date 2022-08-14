@@ -1,18 +1,19 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_USER = gql`
-  query user {
+ query user {
   user {
     _id
     username
     email
-    classCount
-    classes {
+    courseCount
+    courses {
       _id
-      className
+      courseName
       startDate
       endDate
       description
+      instructor
     }
   }
 }
