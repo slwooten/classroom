@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 
 import { QUERY_USER } from '../utils/queries';
@@ -10,27 +11,23 @@ import ClassCard from '../components/ClassCard';
 
 const Dashboard = () => {
 
+  let { userId } = useParams();
+
   /// GRABS CURRENT USER TO USE IN QUERY ///
-  const { data: userData } = Auth.getUser();
-  // console.log(userData);
+  // const { data: userData } = Auth.getUser();
 
   /// FORM STATE ///
   const [formState, setFormState] = useState({ courseName: '', startDate: '', endDate: '', description: '' });
 
-  /// QUERYS USER ///
+  /// QUERYS USER USING USERID FROM PARAMS ///
   const { loading, data } = useQuery(QUERY_USER, {
-    variables: { _id: userData._id }
+    variables: { _id: userId }
   })
 
-  const courseInfo = data.user.courses;
-  
+  const courseInfo = data?.user?.courses;
 
-  console.log('refreshed data', data);
-  // console.log('classInfo', classInfo);
-
+  /// ADD COURSE MUTATION ///
   const [addCourse, { error, courseData }] = useMutation(ADD_COURSE);
-
-  // console.log('class data', classData);
 
   /// HANDLE CHANGE ///
   const handleChange = (e) => {
@@ -67,8 +64,6 @@ const Dashboard = () => {
       endDate: '',
       description: '',
     });
-
-    console.log('updated user data', data);
   };
 
   if (loading) {
@@ -77,29 +72,34 @@ const Dashboard = () => {
     )
   };
 
-  if (data) {
-  } return (
+  return (
     <>
       <div>
         <h1>Dashboard</h1>
-        <h2>Welcome back, {data.user.username}</h2>
+        <h2>Welcome back, {data.user.username}!</h2>
       </div>
-      {courseData ? (
-        <p>Course successfully added!</p>
-      ) : (
         <>
+          {data.user.courses ? (
+            <div>
+              <h2>Here are your courses:</h2>
+              <div>
+                {courseInfo.map((course) => (
+                  <p key={course._id}>{course.courseName}</p>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <h2>You currently have no courses, add a new one below.</h2>
+            </div>
+          )}
           <div>
-          <h2>Here are your courses:</h2>
-          {courseInfo.map((course) => (
-            <ClassCard course={course}/>
-          ))}
-          </div>
-          <div>
+            <h2>Add a New Course:</h2>
             <form onSubmit={handleFormSubmit}>
               <input
                 placeholder='Course name'
                 type='text'
-                name='className'
+                name='courseName'
                 value={formState.courseName}
                 onChange={handleChange}
               />
@@ -128,7 +128,6 @@ const Dashboard = () => {
             </form>
           </div>
         </>
-      )}
 
       {error && (
         <div>

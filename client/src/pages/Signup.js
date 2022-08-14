@@ -35,7 +35,7 @@ const handleFormSubmit = async (e) => {
         variables: { ...formState },
       });
 
-      Auth.login(data.addUser.token);
+      Auth.login(data.addUser.token, data.addUser.user._id);
     } catch (error) {
       console.log(error);
     };
