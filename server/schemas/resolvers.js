@@ -16,7 +16,9 @@ const resolvers = {
     },
     /// GETS ONE COURSE ///
     course: async (parent, { courseId } ) => {
-      return Course.findOne({ _id: courseId});
+      const courseData = await Course.findOne({ _id: courseId });
+
+      return courseData;
     },
   },
 
