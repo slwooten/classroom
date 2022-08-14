@@ -7,7 +7,7 @@ import { ADD_COURSE } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 
-import ClassCard from '../components/ClassCard';
+import CourseCard from '../components/CourseCard';
 
 const Dashboard = () => {
 
@@ -84,7 +84,7 @@ const Dashboard = () => {
               <h2>Here are your courses:</h2>
               <div>
                 {courseInfo.map((course) => (
-                  <p key={course._id}>{course.courseName}</p>
+                  <CourseCard info={course} key={course._id} />
                 ))}
               </div>
             </div>

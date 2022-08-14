@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ClassCard = ({ className, description, endDate, startDate }) => {
+const CourseCard = ({ info: { courseName, description, endDate, startDate} }) => {
   return (
     <div>
-      <p>{className}</p>
+      <h3>{courseName}</h3>
       <p>{description}</p>
       <p>{endDate}</p>
       <p>{startDate}</p>
@@ -11,4 +11,4 @@ const ClassCard = ({ className, description, endDate, startDate }) => {
   )
 };
 
-export default ClassCard;
+export default CourseCard;
