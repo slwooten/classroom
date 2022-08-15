@@ -1,5 +1,5 @@
-import { useQuery } from '@apollo/client';
-import React from 'react'
+import { useQuery, useMutation } from '@apollo/client';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { QUERY_COURSE } from '../utils/queries';
@@ -7,6 +7,7 @@ import { QUERY_COURSE } from '../utils/queries';
 const CoursePage = () => {
 
   let { courseId } = useParams();
+  let courseIdInt = parseInt(courseId);
 
   const { loading, data } = useQuery(QUERY_COURSE, {
     variables: { courseId: courseId }

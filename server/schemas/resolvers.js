@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Course } = require('../models');
+const { User, Course, Student } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -67,6 +67,16 @@ const resolvers = {
         }
         throw new AuthenticationError('You need to be logged in to add a class!');
       },
+      /// ADD STUDENT ///
+      addStudent: async (parent, { firstName, lastName, courseIdInt }, context) => {
+        const student = await Student.create({
+          firstName,
+          lastName,
+          course: courseIdInt,
+        });
+
+        return student;
+      }
   }
 };
 

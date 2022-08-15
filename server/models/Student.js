@@ -11,10 +11,16 @@ const studentSchema = new Schema(
       required: true,
     },
     course: {
-      type: String,
+      type: Number,
       required: true,
       trim: true,
     },
+    grades: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Assignment',
+      }
+    ],
   },
 );
 

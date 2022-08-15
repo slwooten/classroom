@@ -24,7 +24,14 @@ const typeDefs = gql`
     _id: ID
     firstName: String
     lastName: String
-    course: String
+    course: Int
+    grades: [Assignment]
+  }
+
+  type Assignment {
+    assignmentName: String
+    description: String
+    grade: Int
   }
 
   type Auth {
@@ -41,6 +48,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     addCourse(courseName: String!, startDate: String!, endDate: String!, description: String!): Course
+    addStudent(firstName: String!, lastName: String!, course: Int): Student
   }
 `;
 

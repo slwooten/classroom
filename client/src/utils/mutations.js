@@ -24,7 +24,18 @@ export const ADD_COURSE = gql`
     instructor
   }
 }
-`
+`;
+
+export const ADD_STUDENT = gql`
+  mutation addStudent($firstName: String!, $lastName: String!, $course: Int) {
+  addStudent(firstName: $firstName, lastName: $lastName, course: $course) {
+    _id
+    firstName
+    lastName
+    course
+  }
+}
+`;
 
 export const LOGIN_USER = gql`
  mutation login($email: String!, $password: String!) {
