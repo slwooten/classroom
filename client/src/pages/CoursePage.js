@@ -8,16 +8,20 @@ import { QUERY_COURSE } from '../utils/queries';
 const CoursePage = () => {
 
   let { courseId } = useParams();
-  let courseIdInt = parseInt(courseId);
+  console.log(courseId);
+  console.log(typeof courseId);
 
+  /// FORM STATE ///
   const [formState, setFormState] = useState({ firstName: '', lastName: '' });
 
+  /// QUERY COURSE ///
   const { loading, data } = useQuery(QUERY_COURSE, {
     variables: { courseId: courseId }
   });
-
   const courseInfo = data?.course;
+  console.log(courseInfo);
 
+  /// ADD STUDENT MUTATION ///
   const [addStudent, { error, studentData }] = useMutation(ADD_STUDENT);
 
   /// HANDLE CHANGE ///
@@ -30,6 +34,7 @@ const CoursePage = () => {
     });
   };
 
+  /// HANDLE FORM SUBMIT ///
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(formState);
@@ -38,10 +43,14 @@ const CoursePage = () => {
       const { data } = await addStudent({
         variables: {
           ...formState,
-          course: courseIdInt,
+          course: courseId,
         },
         refetchQueries: [
-          { query: QUERY_COURSE }
+          { query: QUERY_COURSE,
+            variables: {
+              courseId: courseId,
+            }
+          },
         ],
       })
     } catch (error) {
@@ -64,13 +73,37 @@ const CoursePage = () => {
     <>
       <div>
         Hey
-        <h1>{courseInfo.courseName}</h1>
-        <h2>Start Date: {courseInfo.startDate}</h2>
-        <h2>End Date: {courseInfo.endDate}</h2>
-        <h2>Number of Students: {courseInfo.studentCount}</h2>
+        <h1>{courseInfo?.courseName}</h1>
+        <h2>Start Date: {courseInfo?.startDate}</h2>
+        <h2>End Date: {courseInfo?.endDate}</h2>
+        <h2>Number of Students: {courseInfo?.studentCount}</h2>
         <h2>Description:</h2>
-        <p>{courseInfo.description}</p>
+        <p>{courseInfo?.description}</p>
       </div>
+      <div>
+        <form onSubmit={handleFormSubmit}>
+          <input
+            type='text'
+            placeholder='Student first name'
+            name='firstName'
+            value={formState.firstName}
+            onChange={handleChange}
+          />
+          <input
+            type='text'
+            placeholder='Student last name'
+            name='lastName'
+            value={formState.lastName}
+            onChange={handleChange}
+          />
+          <button type='submit'>Add Student</button>
+        </form>
+      </div>
+      {error && (
+        <div>
+          {error.message}
+        </div>
+      )}
     </>
   )
 }

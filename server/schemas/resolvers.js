@@ -16,7 +16,7 @@ const resolvers = {
     },
     /// GETS ONE COURSE ///
     course: async (parent, { courseId } ) => {
-      const courseData = await Course.findOne({ _id: courseId });
+      const courseData = await (await Course.findOne({ _id: courseId })).populate('students');
 
       return courseData;
     },
@@ -68,12 +68,17 @@ const resolvers = {
         throw new AuthenticationError('You need to be logged in to add a class!');
       },
       /// ADD STUDENT ///
-      addStudent: async (parent, { firstName, lastName, courseIdInt }, context) => {
+      addStudent: async (parent, { firstName, lastName, course }, context) => {
         const student = await Student.create({
           firstName,
           lastName,
-          course: courseIdInt,
+          course
         });
+
+        await Course.findOneAndUpdate(
+          { _id: course },
+          { $addToSet: { students: student._id }}
+        );
 
         return student;
       }

@@ -27,7 +27,7 @@ export const ADD_COURSE = gql`
 `;
 
 export const ADD_STUDENT = gql`
-  mutation addStudent($firstName: String!, $lastName: String!, $course: Int) {
+  mutation addStudent($firstName: String!, $lastName: String!, $course: String!) {
   addStudent(firstName: $firstName, lastName: $lastName, course: $course) {
     _id
     firstName

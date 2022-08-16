@@ -24,7 +24,7 @@ const typeDefs = gql`
     _id: ID
     firstName: String
     lastName: String
-    course: Int
+    course: String
     grades: [Assignment]
   }
 
@@ -48,7 +48,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     addCourse(courseName: String!, startDate: String!, endDate: String!, description: String!): Course
-    addStudent(firstName: String!, lastName: String!, course: Int): Student
+    addStudent(firstName: String!, lastName: String!, course: String!): Student
   }
 `;
 

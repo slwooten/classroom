@@ -11,9 +11,8 @@ const studentSchema = new Schema(
       required: true,
     },
     course: {
-      type: Number,
-      required: true,
-      trim: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Course'
     },
     grades: [
       {
