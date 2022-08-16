@@ -16,7 +16,7 @@ const resolvers = {
     },
     /// GETS ONE COURSE ///
     course: async (parent, { courseId } ) => {
-      const courseData = await (await Course.findOne({ _id: courseId })).populate('students');
+      const courseData = await (await Course.findOne({ _id: courseId })).populate({ path: 'students', populate: { path: 'grades' }});
 
       return courseData;
     },

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
-import { ADD_STUDENT } from '../utils/mutations';
+import { ADD_STUDENT, ADD_ASSIGNMENT } from '../utils/mutations';
 import { QUERY_COURSE } from '../utils/queries';
 
 import StudentModal from '../components/StudentModal';
@@ -10,23 +10,23 @@ import StudentModal from '../components/StudentModal';
 const CoursePage = () => {
 
   let { courseId } = useParams();
-  // console.log(courseId);
-  // console.log(typeof courseId);
-
-  /// STUDENT FORM STATE ///
+ 
+  /// STUDENT FORM STATE for STUDENT and ASSIGNMENT FORMS ///
   const [formState, setFormState] = useState({ firstName: '', lastName: '' });
+  const [assingmentState, setAssignmentState] = useState({ assignmentName: '', description: '' });
 
   /// QUERY COURSE ///
   const { loading, data } = useQuery(QUERY_COURSE, {
     variables: { courseId: courseId }
   });
   const courseInfo = data?.course;
-  // console.log(courseInfo);
+  console.log(courseInfo);
 
-  /// ADD STUDENT MUTATION ///
+  /// ADD STUDENT MUTATION and ASSIGNMENT MUTATION ///
   const [addStudent, { error, studentData }] = useMutation(ADD_STUDENT);
+  const [addAssignment, { assingmentError, assignmentData }] = useMutation(ADD_ASSIGNMENT);
 
-  /// HANDLE CHANGE ///
+  /// HANDLE STUDENT FORM CHANGE ///
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -36,7 +36,17 @@ const CoursePage = () => {
     });
   };
 
-  /// HANDLE FORM SUBMIT ///
+  /// HANDLE ASSIGNMENT FORM CHANGE ///
+  const handleAssignmentChange = (e) => {
+    const { name, value } = e.target;
+
+    setAssignmentState({
+      ...assingmentState,
+      [name]: value,
+    });
+  };
+
+  /// HANDLE STUDENT FORM SUBMIT ///
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(formState);
@@ -65,6 +75,35 @@ const CoursePage = () => {
       lastName: '',
     });
   };
+
+  /// HANDLE ASSIGNMENT FORM SUBMIT ///
+  const handleAssignmentSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await addAssignment({
+        variables: {
+          ...assingmentState,
+          course: courseId,
+        },
+        refetchQueries: [
+          {
+            query: QUERY_COURSE,
+            variables: {
+              courseId: courseId,
+            }
+          },
+        ],
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+    setAssignmentState({
+      assignmentName: '',
+      description: '',
+    });
+  }
 
   if (loading) {
     return (
@@ -105,6 +144,25 @@ const CoursePage = () => {
             onChange={handleChange}
           />
           <button type='submit'>Add Student</button>
+        </form>
+      </div>
+      <div>
+        <form onSubmit={handleAssignmentSubmit}>
+          <input
+            type='text'
+            placeholder='Assignment name'
+            name='assignmentName'
+            value={assingmentState.assignmentName}
+            onChange={handleAssignmentChange}
+          />
+          <input
+            type='text'
+            placeholder='Assignment description'
+            name='description'
+            value={assingmentState.description}
+            onChange={handleAssignmentChange}
+          />
+          <button type='submit'>Add Assignment</button>
         </form>
       </div>
       {error && (

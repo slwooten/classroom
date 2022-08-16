@@ -32,6 +32,12 @@ export const QUERY_COURSE = gql`
       _id
       firstName
       lastName
+      course
+      grades {
+        assignmentName
+        description
+        grade
+      }
     }
     studentCount
   }
