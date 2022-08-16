@@ -49,6 +49,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     addCourse(courseName: String!, startDate: String!, endDate: String!, description: String!): Course
     addStudent(firstName: String!, lastName: String!, course: String!): Student
+    addAssignment(assignmentName: String!, description: String!, course: String!): Assignment
   }
 `;
 

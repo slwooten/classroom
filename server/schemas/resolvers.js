@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Course, Student } = require('../models');
+const { User, Course, Student, Assignment } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -81,6 +81,20 @@ const resolvers = {
         );
 
         return student;
+      },
+      /// ADD ASSIGNMENT ///
+      addAssignment: async (parent, { assignmentName, description, course }, context) => {
+        const assignment = await Assignment.create({
+          assignmentName,
+          description,
+        });
+
+        await Student.updateMany(
+          { course: course },
+          { $addToSet: { grades: assignment._id }}
+        );
+
+        return assignment;
       }
   }
 };
