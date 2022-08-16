@@ -1,17 +1,19 @@
-import { useQuery, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
 import { ADD_STUDENT } from '../utils/mutations';
 import { QUERY_COURSE } from '../utils/queries';
 
+import StudentModal from '../components/StudentModal';
+
 const CoursePage = () => {
 
   let { courseId } = useParams();
-  console.log(courseId);
-  console.log(typeof courseId);
+  // console.log(courseId);
+  // console.log(typeof courseId);
 
-  /// FORM STATE ///
+  /// STUDENT FORM STATE ///
   const [formState, setFormState] = useState({ firstName: '', lastName: '' });
 
   /// QUERY COURSE ///
@@ -19,7 +21,7 @@ const CoursePage = () => {
     variables: { courseId: courseId }
   });
   const courseInfo = data?.course;
-  console.log(courseInfo);
+  // console.log(courseInfo);
 
   /// ADD STUDENT MUTATION ///
   const [addStudent, { error, studentData }] = useMutation(ADD_STUDENT);
@@ -46,7 +48,8 @@ const CoursePage = () => {
           course: courseId,
         },
         refetchQueries: [
-          { query: QUERY_COURSE,
+          {
+            query: QUERY_COURSE,
             variables: {
               courseId: courseId,
             }
@@ -82,7 +85,7 @@ const CoursePage = () => {
       </div>
       <div>
         {courseInfo?.students.map((student) => (
-          <p key={student._id}>{student.firstName}{' '}{student.lastName}</p>
+          <StudentModal key={student._id} student={student} />
         ))}
       </div>
       <div>
