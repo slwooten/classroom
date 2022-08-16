@@ -81,6 +81,11 @@ const CoursePage = () => {
         <p>{courseInfo?.description}</p>
       </div>
       <div>
+        {courseInfo?.students.map((student) => (
+          <p key={student._id}>{student.firstName}{' '}{student.lastName}</p>
+        ))}
+      </div>
+      <div>
         <form onSubmit={handleFormSubmit}>
           <input
             type='text'
