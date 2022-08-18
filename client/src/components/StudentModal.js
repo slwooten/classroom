@@ -5,6 +5,18 @@ Modal.setAppElement('#root');
 
 const StudentModal = ({ student }) => {
 
+  
+  let gradesArr = [];
+
+    student.grades.map((grade) => {
+    return gradesArr.push(grade.grade);
+  });
+
+  // const average = gradesArr.reduce((a, b) => a + b / gradesArr.length);
+
+  // console.log(average);
+  console.log('Array of student grades/assignments:', gradesArr);
+
   /// MODAL STATE ///
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -27,6 +39,12 @@ const StudentModal = ({ student }) => {
       >
         <h2>First name:{' '}{student.firstName}</h2>
         <h2>Last name:{' '}{student.lastName}</h2>
+        <div>
+          <h3>Assignments:</h3>
+          {student.grades.map((grade) => {
+            return <p key={grade.assignmentName}>{grade.assignmentName}</p>
+          })}
+        </div>
         <button onClick={closeModal}>Close</button>
       </Modal>
     </div>
