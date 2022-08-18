@@ -83,14 +83,14 @@ const resolvers = {
         return student;
       },
       /// ADD ASSIGNMENT ///
-      addAssignment: async (parent, { assignmentName, description, course }, context) => {
+      addAssignment: async (parent, { assignmentName, grade, studentId }, context) => {
         const assignment = await Assignment.create({
           assignmentName,
-          description,
+          grade,
         });
 
-        await Student.updateMany(
-          { course: course },
+        await Student.findOneAndUpdate(
+          { _id: studentId },
           { $addToSet: { grades: assignment._id }}
         );
 

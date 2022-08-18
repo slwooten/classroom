@@ -35,7 +35,6 @@ export const QUERY_COURSE = gql`
       course
       grades {
         assignmentName
-        description
         grade
       }
     }

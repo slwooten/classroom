@@ -6,10 +6,6 @@ const assignmentSchema = new Schema(
       type: String,
       require: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
     grade: {
       type: Number,
     },
