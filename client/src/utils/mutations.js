@@ -38,10 +38,10 @@ export const ADD_STUDENT = gql`
 `;
 
 export const ADD_ASSIGNMENT = gql`
-  mutation addAssignment($assignmentName: String!, $description: String!, $course: String!) {
-  addAssignment(assignmentName: $assignmentName, description: $description, course: $course) {
+  mutation addAssignment($assignmentName: String!, $grade: Int, $studentId: String) {
+  addAssignment(assignmentName: $assignmentName, grade: $grade, studentId: $studentId) {
     assignmentName
-    description
+    grade
   }
 }
 `;
