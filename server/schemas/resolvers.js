@@ -69,32 +69,51 @@ const resolvers = {
       },
       /// ADD STUDENT ///
       addStudent: async (parent, { firstName, lastName, course }, context) => {
-        const student = await Student.create({
-          firstName,
-          lastName,
-          course
-        });
+        if (context.user) {
+          const student = await Student.create({
+            firstName,
+            lastName,
+            course
+          });
+  
+          await Course.findOneAndUpdate(
+            { _id: course },
+            { $addToSet: { students: student._id }}
+          );
 
-        await Course.findOneAndUpdate(
-          { _id: course },
-          { $addToSet: { students: student._id }}
-        );
-
-        return student;
+          return student;
+        }
+        throw new AuthenticationError('You need to be logged in to add a Student!');
       },
       /// ADD ASSIGNMENT ///
       addAssignment: async (parent, { assignmentName, grade, studentId }, context) => {
-        const assignment = await Assignment.create({
-          assignmentName,
-          grade,
-        });
-
-        await Student.findOneAndUpdate(
-          { _id: studentId },
-          { $addToSet: { grades: assignment._id }}
-        );
-
-        return assignment;
+        if (context.user) {
+          const assignment = await Assignment.create({
+            assignmentName,
+            grade,
+          });
+  
+          await Student.findOneAndUpdate(
+            { _id: studentId },
+            { $addToSet: { grades: assignment._id }}
+          );
+  
+          return assignment;
+        }
+        throw new AuthenticationError('You need to be logged in to add an Assignment!');
+      },
+      /// UPDATE AN ASSIGNMENT ///
+      updateAssignment: async(parent, { assignmentId, newGrade }, context) => {
+        if (context.user) {
+          const updatedAssignment = await Assignment.findOneAndUpdate(
+            { _id: assignmentId },
+            { grade: newGrade },
+            { new: true },
+          );
+  
+          return updatedAssignment;
+        }
+        throw new AuthenticationError('You need to be logged in to change a Grade!');
       }
   }
 };

@@ -49,6 +49,7 @@ const typeDefs = gql`
     addCourse(courseName: String!, startDate: String!, endDate: String!, description: String!): Course
     addStudent(firstName: String!, lastName: String!, course: String!): Student
     addAssignment(assignmentName: String!, grade: Int, studentId: String): Assignment
+    updateAssignment(assignmentId: String!, newGrade: Int): Assignment
   }
 `;
 
