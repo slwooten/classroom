@@ -114,6 +114,23 @@ const resolvers = {
           return updatedAssignment;
         }
         throw new AuthenticationError('You need to be logged in to change a Grade!');
+      },
+      /// DELETE ASSIGNMENT ///
+      deleteAssignment: async (parent, { assignmentId, studentId }, context) => {
+        // if (context.user) {
+          await Assignment.findOneAndDelete(
+            { _id: assignmentId },
+          );
+          
+          const updatedStudent = await Student.findOneAndUpdate(
+            { _id: studentId },
+            { $pull: { grades: { assignmentId } } },
+            { new: true },
+          );
+
+          return updatedStudent;
+        // }
+        // throw new AuthenticationError('You need to be logged in to delete an Assignment!');
       }
   }
 };

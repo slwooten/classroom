@@ -51,6 +51,7 @@ const typeDefs = gql`
     addStudent(firstName: String!, lastName: String!, course: String!): Student
     addAssignment(assignmentName: String!, grade: Int, studentId: String): Assignment
     updateAssignment(assignmentId: String!, newGrade: Int): Assignment
+    deleteAssignment(assignmentId: String!, studentId: String): Student
   }
 `;
 
