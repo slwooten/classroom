@@ -29,6 +29,7 @@ const typeDefs = gql`
   }
 
   type Assignment {
+    _id: ID
     assignmentName: String
     grade: Int
   }

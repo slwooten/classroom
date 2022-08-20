@@ -46,6 +46,15 @@ export const ADD_ASSIGNMENT = gql`
 }
 `;
 
+export const UPDATE_ASSIGNMENT = gql`
+  mutation updateAssignment($assignmentId: String!, $newGrade: Int) {
+  updateAssignment(assignmentId: $assignmentId, newGrade: $newGrade) {
+    assignmentName
+    grade
+  }
+}
+`
+
 export const LOGIN_USER = gql`
  mutation login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

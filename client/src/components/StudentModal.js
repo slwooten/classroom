@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { useMutation, useQuery } from '@apollo/client';
 import { ADD_ASSIGNMENT } from '../utils/mutations';
 import { QUERY_COURSE } from '../utils/queries';
+import Assigment from './Assigment';
 
 Modal.setAppElement('#root');
 
@@ -136,12 +137,7 @@ const StudentModal = ({ student }) => {
             <h3>Assignments:</h3>
           )}
           {student?.grades?.map((grade) => {
-            return (
-              <>
-                <p key={grade.assignmentName}>Assignment:{' '}{grade.assignmentName}</p>
-                <p>Grade:{' '}{grade.grade}</p>
-              </>
-            )
+            return <Assigment gradeInfo={grade} courseId={courseId} key={grade._id} />
           })}
         </div>
         <button onClick={closeModal}>Close</button>
