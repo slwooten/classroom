@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client';
 
-import { UPDATE_ASSIGNMENT } from '../utils/mutations';
-import { QUERY_COURSE, QUERY_USER } from '../utils/queries';
+import { UPDATE_ASSIGNMENT, DELETE_ASSIGNMENT } from '../utils/mutations';
+import { QUERY_COURSE } from '../utils/queries';
 
-const Assigment = ({ gradeInfo: { _id, assignmentName, grade }, courseId }) => {
+const Assigment = ({ gradeInfo: { _id, assignmentName, grade }, courseId, studentId }) => {
 
   const assignmentId = _id;
 
-  /// UPDATE ASSIGNMENT MUTATION ///
+  /// UPDATE and DELETE ASSIGNMENT MUTATION ///
   const [updateAssignment, { error, data }] = useMutation(UPDATE_ASSIGNMENT);
+  const [deleteAssignment, { deleteErr, deleteData }] = useMutation(DELETE_ASSIGNMENT);
 
   /// QUERY COURSE ///
   const { loading, courseData } = useQuery(QUERY_COURSE, {
@@ -56,7 +57,30 @@ const Assigment = ({ gradeInfo: { _id, assignmentName, grade }, courseId }) => {
     setFormState({
       newGradeString: '',
     });
-  }
+  };
+
+  /// HANDLE DELETE ASSIGNMENT CLICK ///
+  const handleDelete = async () => {
+
+    try {
+      const { data } = await deleteAssignment({
+        variables: {
+          assignmentId,
+          studentId,
+        },
+        refetchQueries: [
+          {
+            query: QUERY_COURSE,
+            variables: {
+              courseId: courseId,
+            }
+          },
+        ],
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -74,6 +98,7 @@ const Assigment = ({ gradeInfo: { _id, assignmentName, grade }, courseId }) => {
           <button type='submit'>Update Grade</button>
         </form>
       </div>
+      <button onClick={handleDelete}>Delete Assignment/Grade</button>
     </>
   )
 }

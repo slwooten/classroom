@@ -53,7 +53,15 @@ export const UPDATE_ASSIGNMENT = gql`
     grade
   }
 }
-`
+`;
+
+export const DELETE_ASSIGNMENT = gql`
+  mutation deleteAssignment($assignmentId: String!, $studentId: String) {
+  deleteAssignment(assignmentId: $assignmentId, studentId: $studentId) {
+    course
+  }
+}
+`;
 
 export const LOGIN_USER = gql`
  mutation login($email: String!, $password: String!) {

@@ -137,7 +137,7 @@ const StudentModal = ({ student }) => {
             <h3>Assignments:</h3>
           )}
           {student?.grades?.map((grade) => {
-            return <Assigment gradeInfo={grade} courseId={courseId} key={grade._id} />
+            return <Assigment gradeInfo={grade} courseId={courseId} studentId={studentId} key={grade._id} />
           })}
         </div>
         <button onClick={closeModal}>Close</button>
