@@ -122,9 +122,9 @@ const resolvers = {
             { _id: assignmentId },
           );
           
-          const updatedStudent = await Student.findOneAndUpdate(
+          const updatedStudent = await Student.findByIdAndUpdate(
             { _id: studentId },
-            { $pull: { grades: { assignmentId } } },
+            { $pull: { grades: { _id: assignmentId } } }, /// add _id beside assignmentId
             { new: true },
           );
 
