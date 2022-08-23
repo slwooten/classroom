@@ -22,7 +22,19 @@ function Navbar() {
           {Auth.loggedIn() ? (
             <Button onClick={Auth.logout} color='inherit'>Logout</Button>
           ) : (
-            <Typography variant='h6'>Login or Sign Up below!</Typography>
+            <Typography variant='h6'>
+              <Link
+                to='/login' style={{ textDecoration: 'none', color: 'white' }}
+              >
+                Login
+              </Link>
+              {' '}or{' '}
+              <Link
+                to='/signup' style={{ textDecoration: 'none', color: 'white' }}
+              >
+                Sign Up
+              </Link>
+            </Typography>
           )}
         </Toolbar>
       </AppBar>
