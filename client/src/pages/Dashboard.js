@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Box, Container, Typography, TextField, Button, Card } from '@mui/material';
+
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-
 import { QUERY_USER } from '../utils/queries';
 import { ADD_COURSE } from '../utils/mutations';
 
@@ -74,68 +75,112 @@ const Dashboard = () => {
   };
 
   return (
-    <>
-      <div>
-        <h1>Dashboard</h1>
-        <h2>Welcome back, {data.user.username}!</h2>
-      </div>
-        <>
-          {courseLength !== 0  ? (
-            <div>
-              <h2>Here are your courses:</h2>
-              <div>
+    <main>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        p: 2,
+      }}>
+        <Container sx={{ flex: '2 1 400px', maxWidth: 700, display: 'flex', flexDirection: 'column',}}>
+          <Typography variant='h4' sx={{ p: 3, mt: 3 }}>Welcome back, {data.user.username}!</Typography>
+          {courseLength !== 0 ? (
+            <>
+              <Typography variant='h5' sx={{ p: 3 }}>Here are your courses:</Typography>
+              <Container sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+              }}>
                 {courseInfo.map((course) => (
                   <CourseCard info={course} key={course._id} />
                 ))}
-              </div>
-            </div>
+              </Container>
+            </>
           ) : (
             <div>
               <h2>You currently have no courses, add a new one below.</h2>
             </div>
           )}
-          <div>
-            <h2>Add a New Course:</h2>
+        </Container>
+        <Container sx={{
+          display: 'flex',
+          flex: '1 1 400px',
+          minWidth: '250px',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          mt: 8,
+        }}>
+          <Card variant='outlined' sx={{
+            maxWidth: 600,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 2,
+            flex: 'auto'
+          }}>
+            <Typography variant='h4' align='center'>Add a New Course:</Typography>
             <form onSubmit={handleFormSubmit}>
-              <input
-                placeholder='Course name'
-                type='text'
-                name='courseName'
-                value={formState.courseName}
-                onChange={handleChange}
-              />
-              <input
-                placeholder='Course Start Date'
-                type='text'
-                name='startDate'
-                value={formState.startDate}
-                onChange={handleChange}
-              />
-              <input
-                placeholder='Course End Date'
-                type='text'
-                name='endDate'
-                value={formState.endDate}
-                onChange={handleChange}
-              />
-              <input
-                placeholder='Course Description'
-                type='text'
-                name='description'
-                value={formState.description}
-                onChange={handleChange}
-              />
-              <button type='submit'>Add Class</button>
+              <Container sx={{ p: 2 }}>
+                <TextField
+                  label='Course name'
+                  variant='outlined'
+                  type='text'
+                  name='courseName'
+                  value={formState.courseName}
+                  onChange={handleChange}
+                />
+              </Container>
+              <Container sx={{ p: 2 }}>
+                <TextField
+                  label='Course Start Date'
+                  variant='outlined'
+                  type='text'
+                  name='startDate'
+                  value={formState.startDate}
+                  onChange={handleChange}
+                />
+              </Container>
+              <Container sx={{ p: 2 }}>
+                <TextField
+                  label='Course End Date'
+                  variant='outlined'
+                  type='text'
+                  name='endDate'
+                  value={formState.endDate}
+                  onChange={handleChange}
+                />
+              </Container>
+              <Container sx={{ p: 2 }}>
+                <TextField
+                  label='Course Description'
+                  variant='outlined'
+                  type='text'
+                  name='description'
+                  value={formState.description}
+                  onChange={handleChange}
+                />
+              </Container>
+              <Container sx={{
+                p: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Button variant='contained' type='submit'>Add Class</Button>
+              </Container>
             </form>
-          </div>
-        </>
+          </Card>
+        </Container>
 
-      {error && (
-        <div>
-          {error.message}
-        </div>
-      )}
-    </>
+        {error && (
+          <div>
+            {error.message}
+          </div>
+        )}
+      </Box>
+    </main>
   );
 };
 

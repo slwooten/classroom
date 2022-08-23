@@ -7,8 +7,7 @@ import Auth from '../../utils/auth';
 
 function Navbar() {
   return (
-    <Box sx={{ flexGrow: 1 }} gutterBottom>
-      <AppBar position='static'>
+      <AppBar position='sticky'>
         <Toolbar>
           {Auth.loggedIn() ? (
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
@@ -38,7 +37,6 @@ function Navbar() {
           )}
         </Toolbar>
       </AppBar>
-    </Box>
   )
 }
 
