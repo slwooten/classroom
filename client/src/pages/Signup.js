@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { TextField, Typography, Button, Card, Container, Box } from '@mui/material';
 
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
@@ -25,8 +26,8 @@ const Signup = () => {
     });
   };
 
-/// HANDLE SUBMISSION OF FORM ///
-const handleFormSubmit = async (e) => {
+  /// HANDLE SUBMISSION OF FORM ///
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(formState);
 
@@ -39,45 +40,84 @@ const handleFormSubmit = async (e) => {
     } catch (error) {
       console.log(error);
     };
-};
+  };
 
   return (
     <main>
-      <h2>Sign Up</h2>
-      {data ? (
-        <p>Successfully created an account. You may now head{' '}<Link to='/'>back to the hompage.</Link></p>
-      ) : (
-        <form onSubmit={handleFormSubmit}>
-          <input
-            placeholder='Username'
-            name='username'
-            type='text'
-            value={formState.username}
-            onChange={handleChange}
-          />
-          <input
-            placeholder='Email'
-            name='email'
-            type='text'
-            value={formState.email}
-            onChange={handleChange}
-          />
-          <input
-            placeholder='Password'
-            name='password'
-            type='password'
-            value={formState.password}
-            onChange={handleChange}
-          />
-          <button type='submit'>Submit</button>
-        </form>
-      )}
+      <Box sx={{
+        // width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        {data ? (
+          <Typography variant='subtitle1'>Successfully created an account. You may now head{' '}<Link to='/'>back to the hompage.</Link></Typography>
+        ) : (
+          <Container sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Card variant='outlined' sx={{
+              maxWidth: 600,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              p: 2,
+              flex: 'auto'
+            }}>
+              <Typography variant='h4' align='center' gutterBottom>Sign Up</Typography>
+              <form onSubmit={handleFormSubmit}>
+                <Container sx={{ p: 2 }}>
+                  <TextField
+                    label='Username'
+                    variant='outlined'
+                    name='username'
+                    type='text'
+                    value={formState.username}
+                    onChange={handleChange}
+                  />
+                </Container>
+                <Container sx={{ p: 2 }}>
+                  <TextField
+                    label='Email'
+                    variant='outlined'
+                    name='email'
+                    type='text'
+                    value={formState.email}
+                    onChange={handleChange}
+                  />
+                </Container>
+                <Container sx={{ p: 2 }}>
+                  <TextField
+                    label='Password'
+                    variant='outlined'
+                    name='password'
+                    type='password'
+                    value={formState.password}
+                    onChange={handleChange}
+                  />
+                </Container>
+                <Container sx={{
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Button variant='contained' type='submit'>Sign Up</Button>
+                </Container>
+              </form>
+            </Card>
+          </Container>
+        )}
 
-      {error && (
-        <div>
-          {error.message}
-        </div>
-      )} 
+        {error && (
+          <div>
+            {error.message}
+          </div>
+        )}
+      </Box>
     </main>
   );
 };

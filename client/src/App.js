@@ -7,6 +7,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CssBaseline } from '@mui/material';
 
 import Auth from './utils/auth';
 
@@ -43,6 +44,7 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+      <CssBaseline />
       <div>Hello World</div>
       <button onClick={Auth.logout}>Logout</button>
       <Router>
