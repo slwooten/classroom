@@ -18,6 +18,9 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import CoursePage from './pages/CoursePage';
 
+/// IMPORT COMPONENTS ///
+import Navbar from './components/Navbar';
+
 import './App.css';
 
 const httpLink = createHttpLink({
@@ -45,8 +48,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <CssBaseline />
-      <div>Hello World</div>
-      <button onClick={Auth.logout}>Logout</button>
+      <Navbar />
       <Router>
         <Routes>
           <Route path='/' element={<Landing />} />

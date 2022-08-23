@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TextField, Typography, Button, Card, Container, Box } from '@mui/material';
+import SchoolIcon from '@mui/icons-material/School';
 
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
@@ -48,15 +49,18 @@ const Signup = () => {
         // width: '100%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'column',
       }}>
+        <Typography variant='h4' align='center' sx={{ m: 8}} gutterBottom>Welcome to Classroom <SchoolIcon />. Let's get you signed up with a new account!</Typography>
         {data ? (
           <Typography variant='subtitle1'>Successfully created an account. You may now head{' '}<Link to='/'>back to the hompage.</Link></Typography>
         ) : (
           <Container sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            m: 3,
           }}>
             <Card variant='outlined' sx={{
               maxWidth: 600,
