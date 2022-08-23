@@ -48,8 +48,8 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <CssBaseline />
-      <Navbar />
       <Router>
+      <Navbar />
         <Routes>
           <Route path='/' element={<Landing />} />
           <Route path='/signup' element={<Signup />} />

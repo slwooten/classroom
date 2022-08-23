@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom'
-import { Box, Toolbar, Typography, Button, AppBar, Link } from '@mui/material';
+import { Link } from 'react-router-dom'
+import { Box, Toolbar, Typography, Button, AppBar } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 
 import Auth from '../../utils/auth';
@@ -10,9 +10,15 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }} gutterBottom>
       <AppBar position='static'>
         <Toolbar>
+          {Auth.loggedIn() ? (
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            Classroom <SchoolIcon />
+              <Link to='/dashboard/:userId' style={{ textDecoration: 'none', color: 'white' }}>Classroom <SchoolIcon /></Link>
             </Typography>
+          ) : (
+            <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+              <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>Classroom <SchoolIcon /></Link>
+            </Typography>
+          )}
           {Auth.loggedIn() ? (
             <Button onClick={Auth.logout} color='inherit'>Logout</Button>
           ) : (
