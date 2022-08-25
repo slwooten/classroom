@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal';
+import { Box, Container, Card, Typography, Button, TextField } from '@mui/material';
+import LabelIcon from '@mui/icons-material/Label';
 
 import { useMutation, useQuery } from '@apollo/client';
 import { ADD_ASSIGNMENT } from '../utils/mutations';
@@ -36,6 +38,21 @@ const StudentModal = ({ student }) => {
   const longAverage = sum / gradesArr.length;
   const average = Math.trunc(longAverage);
 
+  const [flagState, setFlagState] = useState('');
+
+  const checkAvg = (avg) => {
+    if (avg >= 80) {
+      setFlagState('success');
+    } else if (avg >= 70) {
+      setFlagState('warning');
+    } else {
+      setFlagState('error');
+    }
+  };
+
+  useEffect(() => {
+    checkAvg(average);
+  }, [average]);
 
   /// MODAL STATE ///
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -98,51 +115,87 @@ const StudentModal = ({ student }) => {
   }
 
   return (
-    <div>
-      <button key={student._id} onClick={openModal}>{student.firstName}{' '}{student.lastName}</button>
+    <Box>
+      <Button varaint='text' key={student._id} onClick={openModal}>{student.firstName}{' '}{student.lastName} {'>'}</Button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
       >
-        <h2>First name:{' '}{student.firstName}</h2>
-        <h2>Last name:{' '}{student.lastName}</h2>
-        {isNaN(average) ? (
-          <p>Add assignments and their grades below to calculate Student's Average</p>
-        ) : (
-          <h3>Student Average:{' '}{average}</h3>
-        )}
-        <div>
-          <form onSubmit={handleFormSubmit}>
-            <input
-              type='text'
-              placeholder='Assignment name'
-              name='assignmentName'
-              value={formState.assignmentName}
-              onChange={handleChange}
-            />
-            <input
-              type='number'
-              placeholder='Grade'
-              name='grade'
-              value={formState.grade}
-              onChange={handleChange}
-            />
-            <button type='submit'>Add Assignment and Grade</button>
-          </form>
-        </div>
-        <div>
-          {student?.grades.length === 0 ? (
-            <p>{student.firstName}{' '} currently has no grades.</p>
-          ) : (
-            <h3>Assignments:</h3>
-          )}
-          {student?.grades?.map((grade) => {
-            return <Assigment gradeInfo={grade} courseId={courseId} studentId={studentId} key={grade._id} />
-          })}
-        </div>
-        <button onClick={closeModal}>Close</button>
+        <Button variant='text' sx={{ mt: 1 }} onClick={closeModal}>{'< back'}</Button>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-evenly'
+        }}>
+          <Container sx={{ m: 1, maxWidth: 400, width: 400, }}>
+            <Typography variant='h5' sx={{ mb: 2, mt: 1 }}>{student.lastName}, {student.firstName}</Typography>
+            {isNaN(average) ? (
+              <Typography variant='h6'>Add assignments and their grades below to calculate {student.firstName}'s Average</Typography>
+            ) : (
+              <Typography variant='h6' sx={{ mt: 3 }}>
+                <LabelIcon color={flagState} />
+                {' '}{' '}{' '}
+                Student Average:{' '}{average}%
+              </Typography>
+            )}
+            <Card variant='outlined' sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              p: 2,
+              mt: 4,
+              maxWidth: 250,
+              minHeight: 300,
+              minWidth: 200,
+            }}>
+              <Typography variant='h6' gutterBottom>Add Grades:</Typography>
+              <form onSubmit={handleFormSubmit}>
+                <Container sx={{ p: 2 }}>
+                  <TextField
+                    type='text'
+                    variant='outlined'
+                    label='Assignment name'
+                    name='assignmentName'
+                    value={formState.assignmentName}
+                    onChange={handleChange}
+                  />
+                </Container>
+                <Container sx={{ p: 2 }}>
+                  <TextField
+                    type='number'
+                    variant='outlined'
+                    label='Grade'
+                    name='grade'
+                    value={formState.grade}
+                    onChange={handleChange}
+                  />
+                </Container>
+                <Container sx={{
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Button variant='outlined' color='success' type='submit'>Add Grade</Button>
+                </Container>
+              </form>
+            </Card>
+          </Container>
+          <Container sx={{ m: 1, width: 400, }}>
+            {student?.grades.length === 0 ? (
+              <p>{student.firstName}{' '} currently has no grades.</p>
+            ) : (
+              <h3>Assignments:</h3>
+            )}
+            {student?.grades?.map((grade) => {
+              return <Assigment gradeInfo={grade} courseId={courseId} studentId={studentId} key={grade._id} />
+            })}
+          </Container>
+        </Box>
       </Modal>
-    </div>
+    </Box>
   )
 };
 
