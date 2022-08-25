@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Container, Typography, Card, Button } from '@mui/material';
+import { Box, Container, Typography, Card, Button, TextField } from '@mui/material';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
@@ -85,20 +85,34 @@ const CoursePage = () => {
             alignItems: 'center',
             justifyContent: 'center',
             flexWrap: 'wrap',
+            mt: 3,
+            mb: 3,
           }}
         >
           <Card variant='outlined' sx={{
             p: 2,
             m: 3,
+            minHeight: 300,
+            minWidth: 300,
           }}>
-            <Typography variant='h6'>Description:</Typography>
+            <Typography variant='h6' sx={{ mb: 2 }}>Description:</Typography>
             <Typography variant='subtitle1'>{courseInfo?.description}</Typography>
           </Card>
           <Card variant='outlined' sx={{
             p: 2,
             m: 3,
+            minHeight: 300,
+            minWidth: 300,
+            maxWidth: 300,
           }}>
-            <Typography variant='h6'>Students:</Typography>
+            {courseInfo?.students.length !== 0 ? (
+              <Typography variant='h6' sx={{ mb: 2 }}>Students:</Typography>
+            ) : (
+              <>
+                <Typography variant='h6' sx={{ mb: 2 }}>Students:</Typography>
+                <Typography variant='subtitle1'>Once you've added students to this class, they will appear here.</Typography>
+              </>
+            )}
             {courseInfo?.students.map((student) => (
               <StudentModal key={student._id} student={student} />
             ))}
@@ -110,24 +124,40 @@ const CoursePage = () => {
             alignItems: 'center',
             justifyContent: 'center',
             p: 2,
-            flex: 'auto'
+            flex: 'auto',
+            minHeight: 300,
+            minWidth: 300,
           }}>
+            <Typography variant='h6' align='center' gutterBottom>Add a Student</Typography>
             <form onSubmit={handleFormSubmit}>
-              <input
-                type='text'
-                placeholder='Student first name'
-                name='firstName'
-                value={formState.firstName}
-                onChange={handleChange}
-              />
-              <input
-                type='text'
-                placeholder='Student last name'
-                name='lastName'
-                value={formState.lastName}
-                onChange={handleChange}
-              />
-              <button type='submit'>Add Student</button>
+              <Container sx={{ p: 2 }}>
+                <TextField
+                  type='text'
+                  placeholder='Student first name'
+                  variant='outlined'
+                  name='firstName'
+                  value={formState.firstName}
+                  onChange={handleChange}
+                />
+              </Container>
+              <Container sx={{ p: 2 }}>
+                <TextField
+                  type='text'
+                  placeholder='Student last name'
+                  variant='outlined'
+                  name='lastName'
+                  value={formState.lastName}
+                  onChange={handleChange}
+                />
+              </Container>
+              <Container sx={{
+                p: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Button variant='contained' type='submit'>Add Student</Button>
+              </Container>
             </form>
           </Card>
         </Container>
