@@ -20,6 +20,7 @@ import CoursePage from './pages/CoursePage';
 
 /// IMPORT COMPONENTS ///
 import Navbar from './components/Navbar';
+import ProtectRoute from './components/ProtectRoute';
 // import Footer from './components/Footer';
 
 import './App.css';
@@ -50,13 +51,19 @@ function App() {
     <ApolloProvider client={client}>
       <CssBaseline />
       <Router>
-      <Navbar />
+        <Navbar />
         <Routes>
           <Route path='/' element={<Landing />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/dashboard/:userId' element={<Dashboard />} />
-          <Route path='course/:courseId' element={<CoursePage />} />
+          <Route
+            path='/dashboard/:userId'
+            element={Auth.loggedIn() ? <Dashboard /> : <ProtectRoute />}
+          />
+          <Route
+            path='course/:courseId' 
+            element={Auth.loggedIn() ? <CoursePage /> : <ProtectRoute />}
+          />
         </Routes>
       </Router>
     </ApolloProvider>
