@@ -26,7 +26,7 @@ const StudentModal = ({ student }) => {
   /// ASSIGNMENT FORM STATE ///
   const [formState, setFormState] = useState({ assignmentName: '', grade: '' });
 
-  /// CALCULATING THE STUDENT'S AVERAGE ///
+  /// CALCULATING THE STUDENT'S AVERAGE and SET FLAG STATE BASED ON AVERAGE ///
   let gradesArr = [];
   let sum = 0;
   student.grades.map((grade) => {
@@ -126,9 +126,8 @@ const StudentModal = ({ student }) => {
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'wrap',
-          justifyContent: 'space-evenly'
         }}>
-          <Container sx={{ m: 1, maxWidth: 400, width: 400, }}>
+          <Container sx={{ m: 1, maxWidth: 400, width: 400, flex: '1 1 400px' }}>
             <Typography variant='h5' sx={{ mb: 2, mt: 1 }}>{student.lastName}, {student.firstName}</Typography>
             {isNaN(average) ? (
               <Typography variant='h6'>Add assignments and their grades below to calculate {student.firstName}'s Average</Typography>
@@ -183,15 +182,21 @@ const StudentModal = ({ student }) => {
               </form>
             </Card>
           </Container>
-          <Container sx={{ m: 1, width: 400, }}>
+          <Container sx={{ m: 1, width: 700, flex: '2 1 700px' }}>
             {student?.grades.length === 0 ? (
               <p>{student.firstName}{' '} currently has no grades.</p>
             ) : (
-              <h3>Assignments:</h3>
+              <h3>Current Grades:</h3>
             )}
-            {student?.grades?.map((grade) => {
-              return <Assigment gradeInfo={grade} courseId={courseId} studentId={studentId} key={grade._id} />
-            })}
+            <Container sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+            }}>
+              {student?.grades?.map((grade) => {
+                return <Assigment gradeInfo={grade} courseId={courseId} studentId={studentId} key={grade._id} />
+              })}
+            </Container>
           </Container>
         </Box>
       </Modal>

@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Container, Card, TextField, Typography, Button } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { UPDATE_ASSIGNMENT, DELETE_ASSIGNMENT } from '../utils/mutations';
@@ -19,6 +22,26 @@ const Assigment = ({ gradeInfo: { _id, assignmentName, grade }, courseId, studen
 
   /// FORM STATE ///
   const [formState, setFormState] = useState({ newGradeString: '' });
+
+  const [gradeColor, setGradeColor] = useState('');
+  const [gradeBold, setGradeBold] = useState('');
+
+  const checkGrade = (grd) => {
+    if (grd >= 80) {
+      setGradeColor('blue');
+      setGradeBold('normal');
+    } else if (grd >= 70) {
+      setGradeColor('orange');
+      setGradeBold('bold');
+    } else {
+      setGradeColor('red');
+      setGradeBold('bold');
+    }
+  };
+
+  useEffect(() => {
+    checkGrade(grade);
+  }, [grade]);
 
   /// HANDLE ASSIGNMENT FORM CHANGE ///
   const handleChange = (e) => {
@@ -83,23 +106,46 @@ const Assigment = ({ gradeInfo: { _id, assignmentName, grade }, courseId, studen
   };
 
   return (
-    <>
-      <p>Assignment: {assignmentName}</p>
-      <p>Grade {grade}</p>
-      <div>
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type='number'
-            placeholder='Change Grade'
-            name='newGradeString'
-            value={formState.newGradeString}
-            onChange={handleChange}
-          />
-          <button type='submit'>Update Grade</button>
-        </form>
-      </div>
-      <button onClick={handleDelete}>Delete Assignment/Grade</button>
-    </>
+    <Container sx={{
+      width: 300,
+      height: 275,
+      m: 0,
+    }}>
+      <Card variant='outlined' sx={{
+        p: 3,
+        maxWidth: 290,
+      }}>
+        <Typography variant='h6'>{assignmentName}</Typography>
+        <Typography variant='subtitle1' sx={{
+          mt: 2,
+          color: `${gradeColor}`,
+          fontWeight: `${gradeBold}`,
+        }}>
+          Grade: {grade}%
+        </Typography>
+        <Container sx={{ mt: 2 }}>
+          <form onSubmit={handleFormSubmit}>
+            <TextField
+              type='number'
+              label='Change Grade'
+              name='newGradeString'
+              value={formState.newGradeString}
+              onChange={handleChange}
+            />
+            <Container sx={{
+              mt: 2,
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}>
+              <Button variant='outlined' color='success' type='submit' sx={{ mr: 1 }}>Update</Button>
+              <IconButton>
+                <DeleteIcon color='error' onClick={handleDelete} />
+              </IconButton>
+            </Container>
+          </form>
+        </Container>
+      </Card>
+    </Container>
   )
 }
 
