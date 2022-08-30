@@ -83,7 +83,7 @@ const Dashboard = () => {
         flexWrap: 'wrap',
         p: 2,
       }}>
-        <Container sx={{ flex: '2 1 400px', maxWidth: 700, display: 'flex', flexDirection: 'column',}}>
+        <Container sx={{ flex: '2 1 400px', maxWidth: 700, display: 'flex', flexDirection: 'column', }}>
           <Typography variant='h4' sx={{ p: 3, mt: 3 }}>Welcome back, {data.user.username}!</Typography>
           {courseLength !== 0 ? (
             <>
@@ -154,8 +154,11 @@ const Dashboard = () => {
               </Container>
               <Container sx={{ p: 2 }}>
                 <TextField
+                  id="outlined-multiline-flexible"
                   label='Course Description'
                   variant='outlined'
+                  multiline
+                  rows={4}
                   type='text'
                   name='description'
                   value={formState.description}
