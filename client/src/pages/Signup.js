@@ -30,7 +30,6 @@ const Signup = () => {
   /// HANDLE SUBMISSION OF FORM ///
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formState);
 
     try {
       const { data } = await addUser({
