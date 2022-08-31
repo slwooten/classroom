@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Container, Typography, Card, Button, TextField } from '@mui/material';
 import { useQuery, useMutation } from '@apollo/client';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { ADD_STUDENT } from '../utils/mutations';
 import { QUERY_COURSE } from '../utils/queries';
@@ -11,6 +11,7 @@ import StudentModal from '../components/StudentModal';
 const CoursePage = () => {
 
   let { courseId } = useParams();
+  const navigate = useNavigate();
 
   /// STUDENT FORM STATE for STUDENT FORM ///
   const [formState, setFormState] = useState({ firstName: '', lastName: '' });
@@ -73,7 +74,8 @@ const CoursePage = () => {
     <main>
       <Box>
         <Container>
-          <Typography variant='h4' align='center' sx={{ mt: 8, mb: 4 }}>{courseInfo?.courseName}</Typography>
+          <Button variant='text' sx={{ mt: 4 }} onClick={() => navigate(-1)}>{'< '} to Dashboard</Button>
+          <Typography variant='h4' align='center' sx={{ mt: 2, mb: 3 }}>{courseInfo?.courseName}</Typography>
           <Typography variant='h6' align='center' sx={{ m: 2 }}>Number of Students: {courseInfo?.studentCount}</Typography>
           <Typography variant='h6' align='center'>Start/End Dates:</Typography>
           <Typography variant='subtitle2' align='center'>{courseInfo?.startDate} - {courseInfo?.endDate}</Typography>
