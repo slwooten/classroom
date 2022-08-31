@@ -52,7 +52,12 @@ const Dashboard = () => {
           instructor: Auth.getUser().data.username,
         },
         refetchQueries: [
-          { query: QUERY_USER }
+          { 
+            query: QUERY_USER,
+            variable: {
+              userId: userId,
+            } 
+          }
         ],
       });
     } catch (error) {
