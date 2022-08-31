@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   /// QUERYS USER USING USERID FROM PARAMS ///
   const { loading, data } = useQuery(QUERY_USER, {
-    variables: { _id: userId }
+    variables: { userId: userId }
   })
 
   const courseInfo = data?.user?.courses;
