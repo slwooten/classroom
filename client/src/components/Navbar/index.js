@@ -11,7 +11,7 @@ function Navbar() {
         <Toolbar>
           {Auth.loggedIn() ? (
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-              <Link to='/dashboard/:userId' style={{ textDecoration: 'none', color: 'white' }}>Classroom <SchoolIcon /></Link>
+              <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>Classroom <SchoolIcon /></Link>
             </Typography>
           ) : (
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
