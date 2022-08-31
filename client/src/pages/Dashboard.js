@@ -54,10 +54,10 @@ const Dashboard = () => {
         refetchQueries: [
           { 
             query: QUERY_USER,
-            variable: {
+            variables: {
               userId: userId,
             } 
-          }
+          },
         ],
       });
     } catch (error) {
